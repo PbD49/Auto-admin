@@ -4,6 +4,11 @@ import AdminLayout from './layouts/AdminLayout';
 import AuthLayout from './layouts/AuthLayout';
 import InstallLayout from './layouts/InstallLayout';
 import { AppGate } from './guards/AppGate';
+import LocaleLayout from './layouts/LocaleLayout';
+import { RootLocaleRedirect } from './redirects/RootLocaleRedirect';
+
+
+
 
 const InstallPage = lazy(() => import('../../pages/install/installPage'));
 const HomePage = lazy(() => import('../../pages/home/homePage'));

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {Navigate, Outlet, userLocation, useParams } from 'react-router-dom';
+import {Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import i18n from '../../../shared/i18n';
 import {
   DEFAULT_LOCALE,
@@ -10,7 +10,7 @@ import { changePathLocale } from '../locale/locale-path';
 
 const LocaleLayout = () => {
   const { locale } = useParams<{ locale: string }>();
-  const location = userLocation();
+  const location = useLocation();
   const validLocale = isAppLocale(locale) ? locale: null;
   const [isLanguageReady, setIsLanguageReady] = useState(
     validLocale !== null && i18n.resolvedLanguage === validLocale,
@@ -45,7 +45,7 @@ const LocaleLayout = () => {
   }
 
   if (!isLanguageReady || i18n.resolvedLanguage !== validLocale) {
-    return <div>Loading...<div/>;
+    return <div>Loading...</div>;
   }
 
   return <Outlet />;

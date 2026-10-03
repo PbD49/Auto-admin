@@ -2,13 +2,13 @@ import { Outlet, useLocation, Navigate } from "react-router-dom";
 import { useBootstrap } from "../../providers/bootstrap/BootstrapContext";
 import { Button } from "../../../shared/ui/Button/Button";
 import { useAuth } from "../../providers/auth/AuthContext";
-import { userApplocale } from "../locale/use-app-locale";
+import { useApplocale } from "../locale/use-app-locale";
 import { appPaths } from "../app-paths";
 import MigrationRecovery from "../../../features/migration-recovery/ui/MigrationRecovery";
 
 
 export const AppGate = () => {
-    const locale = userApplocale();
+    const locale = useApplocale();
     const paths = {
         home: appPaths.home(locale),
         login: appPaths.login(locale),

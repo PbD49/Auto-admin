@@ -18,11 +18,18 @@ interface FieldConfig {
 }
 
 const FIELDS: FieldConfig[] = [
-    { name: 'userName', label: 'Имя пользователя', placeholder: 'admin' },
-    { name: 'password', label: 'Пароль', type: 'password', placeholder: '••••••••' },
+    { name: 'userName', 
+      label: t('fields.userName.label'),
+      placeholder: t('fields.userName.placeholder'),
+    }
+    { name: 'password', 
+      label: t('fields.password.label'), 
+      type: 'password', 
+      placeholder: t('fields.password.placeholder') },
 ] as const;
 
 const AuthForm = () => {
+    const { t } = useTranslation('authForm');
     const { refreshAuth } = useAuth();
 
     const {
@@ -42,7 +49,7 @@ const AuthForm = () => {
     const onSubmit = async (data: AuthSchemaFormValues) => {
         try {
             await toast.promise(auth.login(data), {
-                loading: 'Выполняется запрос...',
+                loading: t('requestInProgress',)
                 success: (response) => apiMessage(response),
                 error: (err) => {
                     applyFieldErrors(err, setError, ['userName', 'password']);
@@ -59,8 +66,8 @@ const AuthForm = () => {
 
     return (
         <CardForm
-            headerTitle="Вход в админ панель"
-            headerDescription="Введите имя и пароль пользователя"
+            headerTitle={t('title')}
+            headerDescription={t('decsription')}
             onSubmit={handleSubmit(onSubmit)}
         >
             {
@@ -76,13 +83,14 @@ const AuthForm = () => {
                 ))
             }
             <Button
-                type="submit"
+                type={t('submit')}
                 variant='primary'
                 className="check-button w-100__percent"
                 disabled={isSubmitting}
                 isLoading={isSubmitting}
+                
             >
-                Вход
+                
             </Button>
         </CardForm>
     );

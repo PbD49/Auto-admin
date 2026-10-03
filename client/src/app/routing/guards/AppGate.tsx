@@ -2,12 +2,26 @@ import { Outlet, useLocation, Navigate } from "react-router-dom";
 import { useBootstrap } from "../../providers/bootstrap/BootstrapContext";
 import { Button } from "../../../shared/ui/Button/Button";
 import { useAuth } from "../../providers/auth/AuthContext";
+import { userApplocale } from "../locale/use-app-locale";
+import { appPaths } from "../app-paths";
+import MigrationRecovery from "../../../features/migration-recovery/ui/MigrationRecovery";
 
 
 export const AppGate = () => {
+    const locale = userApplocale();
+    const paths = {
+        home: appPaths.home(locale),
+        login: appPaths.login(locale),
+        install: appPaths.install(locale),
+        runMigrations: appPaths.runMigrations(locale),
+        MigrationRecovery: appPaths.MigrationRecovery(locale),
+        registerAdmin: appPaths.registerAdmin(locale),
+    }
     const { state, refreshBootstrap } = useBootstrap();
     const location = useLocation();
     const { status, refreshAuth } = useAuth();
+    const authRoot = `${locale}/auth`;
+    const installRoot = `${locale}/install`;
 
     if (state.status === 'checking') {
         return (
@@ -32,26 +46,25 @@ export const AppGate = () => {
     }
 
     if (state.stage === 'database_required') {
-        if (location.pathname !== '/install') {
-            return <Navigate to="/install" replace />;
+        if (location.pathname !== paths.install) {
+            return <Navigate to={paths.install} replace />;
         }
-        else if (location.pathname === '/install') {
-            return <Outlet />;
+        return <Outlet />;
         }
-    }
+    
 
     if (state.stage === 'migrations_required') {
-        if (location.pathname !== '/install/runMigrations') {
-            return <Navigate to="/install/runMigrations" replace />;
+        if (location.pathname !== paths.runMigrations) {
+            return <Navigate to={paths.runMigrations} replace />;
         }
-        else if (location.pathname === '/install/runMigrations') {
+        else if (location.pathname === paths.runMigrations) {
             return <Outlet />;
         }
     }
 
     if (state.stage === 'migration_recovery_required') {
-        if (location.pathname !== '/install/migrationRecovery') {
-            return <Navigate to="/install/migrationRecovery" replace />;
+        if (location.pathname !== paths.MigrationRecovery) {
+            return <Navigate to={paths.MigrationRecovery} replace />;
         }
         else if (location.pathname === '/install/migrationRecovery') {
             return <Outlet />;
@@ -59,10 +72,10 @@ export const AppGate = () => {
     }
 
     if (state.stage === 'admin_required') {
-        if (location.pathname !== '/install/register') {
-            return <Navigate to="/install/register" replace />;
+        if (location.pathname !== paths.registerAdmin) {
+            return <Navigate to={paths.registerAdmin} replace />;
         }
-        else if (location.pathname === '/install/register') {
+        else if (location.pathname === paths.registerAdmin) {
             return <Outlet />;
         }
     }
@@ -113,13 +126,13 @@ export const AppGate = () => {
         );
     }
 
-    if (status === 'unauthenticated' && location.pathname !== '/auth/login') {
-        return <Navigate to="/auth/login" replace />;
+    if (status === 'unauthenticated' && location.pathname !== paths.login) {
+        return <Navigate to={paths.login} replace />;
     }
 
-    const isAuthOrInstallPath = location.pathname.startsWith('/auth/') || location.pathname.startsWith('/install/') || location.pathname === '/auth' || location.pathname === '/install';
+    const isAuthOrInstallPath = location.pathname === authRoot || location.pathname.startsWith(`${authRoot}/`) || location.pathname === installRoot || location.pathname.startsWith(`${installRoot}/`);
     if (status === 'authenticated' && isAuthOrInstallPath) {
-        return <Navigate to="/" replace />;
+        return <Navigate to={paths.home} replace />;
     }
 
     return <Outlet />;

@@ -44,7 +44,7 @@ export default function AdminLayout() {
             Панель управления
           </Link>
           <Link
-            to="/users"
+            to="/users" 
             style={{ color: location.pathname === '/users' ? '#38bdf8' : '#fff', textDecoration: 'none' }}
           >
             Пользователи

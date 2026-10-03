@@ -50,6 +50,7 @@ export const getBaseUrl = (): string => {
     return 'http://127.0.0.1:5180';
 }
 
+
 export async function apiClient<TData = unknown>(url: string, options?: RequestInit): Promise<ApiSuccessPayload<TData>> {
     const headers = new Headers(options?.headers as HeadersInit);
     const isFormDataBody: boolean = typeof FormData !== 'undefined' && options?.body instanceof FormData;

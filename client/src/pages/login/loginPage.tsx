@@ -5,7 +5,7 @@ import AuthForm from "../../features/auth-form/ui/AuthForm";
 const LoginPage = () => {
     const { t } = useTranslation('loginPage');
     
-    userEffect(( => {
+    useEffect(() => {
         document.title = t('documentTitle');
     }, [t]);
 

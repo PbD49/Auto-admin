@@ -9,6 +9,8 @@ import { auth } from '../../../shared/api/auth';
 import { useAuth } from '../../../app/providers/auth/AuthContext';
 import { apiMessage } from '../../../shared/i18n/api-message';
 import { applyFieldErrors } from '../../../shared/api/apply-field-errors';
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 interface FieldConfig {
     name: keyof AuthSchemaFormValues;
@@ -17,15 +19,17 @@ interface FieldConfig {
     placeholder: string;
 }
 
-const FIELDS: FieldConfig[] = [
-    { name: 'userName', 
+const fields: FieldConfig[] = [
+    { 
+      name: 'userName', 
       label: t('fields.userName.label'),
       placeholder: t('fields.userName.placeholder'),
-    }
+    },
     { name: 'password', 
       label: t('fields.password.label'), 
       type: 'password', 
-      placeholder: t('fields.password.placeholder') },
+      placeholder: t('fields.password.placeholder') 
+    },
 ] as const;
 
 const AuthForm = () => {
@@ -49,7 +53,7 @@ const AuthForm = () => {
     const onSubmit = async (data: AuthSchemaFormValues) => {
         try {
             await toast.promise(auth.login(data), {
-                loading: t('requestInProgress',)
+                loading: t('requestInProgress'),
                 success: (response) => apiMessage(response),
                 error: (err) => {
                     applyFieldErrors(err, setError, ['userName', 'password']);
@@ -71,7 +75,7 @@ const AuthForm = () => {
             onSubmit={handleSubmit(onSubmit)}
         >
             {
-                FIELDS.map((field) => (
+                fields.map((field) => (
                     <ControlledInput
                         key={field.name}
                         control={control}

@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useApplocale } from "../../../app/routing/locale/use-app-locale";
+import { useAppLocale } from "../../../app/routing/locale/use-app-locale";
 import { SUPPORTED_LOCALES, type AppLocale } from "../../../shared/i18n/config";
 import { changePathLocale } from "../../../app/routing/locale/locale-path";
 
@@ -13,12 +13,12 @@ const LABELS: Record<AppLocale, string> = {
 };
 
 export const LanguageSwitcher = () => {
-  const currentLocale = useApplocale();
+  const currentLocale = useAppLocale();
   const location = useLocation();
   const navigate = useNavigate();
 
   const selectLocale = (nextLocale: AppLocale) => {
-    if (nextLocale = currentLocale) return;
+    if (nextLocale === currentLocale) return;
 
     navigate(
       {

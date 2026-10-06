@@ -2,26 +2,25 @@ import { Outlet, useLocation, Navigate } from "react-router-dom";
 import { useBootstrap } from "../../providers/bootstrap/BootstrapContext";
 import { Button } from "../../../shared/ui/Button/Button";
 import { useAuth } from "../../providers/auth/AuthContext";
-import { useApplocale } from "../locale/use-app-locale";
+import { useAppLocale } from "../locale/use-app-locale";
 import { appPaths } from "../app-paths";
-import MigrationRecovery from "../../../features/migration-recovery/ui/MigrationRecovery";
 
 
 export const AppGate = () => {
-    const locale = useApplocale();
+    const locale = useAppLocale();
     const paths = {
         home: appPaths.home(locale),
         login: appPaths.login(locale),
         install: appPaths.install(locale),
         runMigrations: appPaths.runMigrations(locale),
-        MigrationRecovery: appPaths.MigrationRecovery(locale),
+        migrationRecovery: appPaths.migrationRecovery(locale),
         registerAdmin: appPaths.registerAdmin(locale),
     }
     const { state, refreshBootstrap } = useBootstrap();
     const location = useLocation();
     const { status, refreshAuth } = useAuth();
-    const authRoot = `${locale}/auth`;
-    const installRoot = `${locale}/install`;
+    const authRoot = `/${locale}/auth`;
+    const installRoot = `/${locale}/install`;
 
     if (state.status === 'checking') {
         return (
@@ -63,10 +62,10 @@ export const AppGate = () => {
     }
 
     if (state.stage === 'migration_recovery_required') {
-        if (location.pathname !== paths.MigrationRecovery) {
-            return <Navigate to={paths.MigrationRecovery} replace />;
+        if (location.pathname !== paths.migrationRecovery) {
+            return <Navigate to={paths.migrationRecovery} replace />;
         }
-        else if (location.pathname === '/install/migrationRecovery') {
+        else if (location.pathname === paths.migrationRecovery) {
             return <Outlet />;
         }
     }

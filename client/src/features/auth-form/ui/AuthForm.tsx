@@ -22,13 +22,13 @@ interface FieldConfig {
 const fields: FieldConfig[] = [
     { 
       name: 'userName', 
-      label: t('fields.userName.label'),
-      placeholder: t('fields.userName.placeholder'),
+      label: t('authForm:fields.password.label'),
+      placeholder: t('authForm:fields.password.placeholder'),
     },
     { name: 'password', 
-      label: t('fields.password.label'), 
+      label: t('authForm:fields.password.label'), 
       type: 'password', 
-      placeholder: t('fields.password.placeholder') 
+      placeholder: t('authForm:fields.password.placeholder') 
     },
 ] as const;
 
@@ -71,7 +71,7 @@ const AuthForm = () => {
     return (
         <CardForm
             headerTitle={t('title')}
-            headerDescription={t('decsription')}
+            headerDescription={t('description')}
             onSubmit={handleSubmit(onSubmit)}
         >
             {
@@ -87,14 +87,14 @@ const AuthForm = () => {
                 ))
             }
             <Button
-                type={t('submit')}
+                type="submit"
                 variant='primary'
                 className="check-button w-100__percent"
                 disabled={isSubmitting}
                 isLoading={isSubmitting}
                 
             >
-                
+                Вход
             </Button>
         </CardForm>
     );
